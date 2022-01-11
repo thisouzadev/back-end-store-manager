@@ -1,6 +1,6 @@
-const { createProduct } = require('../services/product.services');
+const { createProduct, findAllProducts, findByIdMongo } = require('../services/product.services');
 const {
-  // success,
+  success,
   created,
   // badRequest,
   // notFound,
@@ -19,7 +19,31 @@ const productCreate = async (req, res, next) => {
     return next(error);
   }
 };
+const getProduct = async (req, res, next) => {
+  try {
+    const findAll = await findAllProducts();
+    return res.status(success).json({ products: findAll });
+  } catch (error) {
+    console.log(`POST FINDPRODUCT -> ${error.message}`);
+    return next(error);
+  }
+};
+
+const getId = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await findByIdMongo(id);
+
+    if (product.error) return next(product.error);
+    return res.status(success).json(product);
+  } catch (error) {
+    console.log(`POST FINDBYIDPRODUCT -> ${error.message}`);
+    return next(error);
+  }
+};
 
 module.exports = {
   productCreate,
+  getProduct,
+  getId,
 };
