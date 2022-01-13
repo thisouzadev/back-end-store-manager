@@ -1,8 +1,8 @@
 const connect = require('./connection');
 
 const create = async (array) => {
-  const conn = await connect();
-  const query = await conn.collection('sales').insertOne({ itensSold: array });
+  const db = await connect();
+  const query = await db.collection('sales').insertOne({ itensSold: array });
   const { insertedId } = query;
   return insertedId;
 };

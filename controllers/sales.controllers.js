@@ -2,8 +2,8 @@ const {
   createSales,
 } = require('../services/sales.services');
 const {
-  // success,
-  created,
+  success,
+  // created,
   // badRequest,
   // notFound,
   // unprocessableEntity,
@@ -14,7 +14,7 @@ const addSales = async (req, res, next) => {
   try {
     const array = req.body;
     const newSales = await createSales(array);
-    return res.status(created).json(newSales);
+    return res.status(success).json(newSales);
   } catch (error) {
     console.log(`POST CREATESALES -> ${error.message}`);
     return next(error);
