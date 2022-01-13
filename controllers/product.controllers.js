@@ -60,7 +60,7 @@ const update = async (req, res, next) => {
 const exclude = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const products = await productExclude(ObjectId(id));
+    const products = await productExclude(id);
     console.log(products, 'controller');
     return res.status(success).json(products);
   } catch (error) {

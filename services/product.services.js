@@ -64,15 +64,12 @@ const productUpdate = async (id, name, quantity) => {
 
 const productExclude = async (id) => {
   const { error } = idSchema.validate(id);
-  const getId = await findById(ObjectId(id));
-  if (!getId) {
-    throw errorConstructor(
-      unprocessableEntity, 'Wrong id format', 'invalid_data',
-    );
-  }
-  const productDeleted = await excludeProduct(id);
-  console.log(productDeleted, 'service');
-  return productDeleted;
+  if (error) throw errorConstructor(unprocessableEntity, 'Wrong id format', 'invalid_data');
+  const product = await findById(id);
+  if (!product) throw errorConstructor(unprocessableEntity, 'Wrong id format', 'invalid_data');
+  await excludeProduct(id);
+
+  return product;
 };
 
 module.exports = {
