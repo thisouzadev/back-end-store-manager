@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-const { ObjectId } = require('mongodb');
 const { create, findByName,
   findAll, findById, updateProduct,
   excludeProduct } = require('../models/product.model');

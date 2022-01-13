@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const {
   createProduct, findAllProducts, findByIdMongo, productUpdate, productExclude,
 } = require('../services/product.services');

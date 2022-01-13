@@ -47,7 +47,6 @@ const excludeProduct = async (id) => {
   const db = await connect();
   const product = await findById(id);
   await db.collection('products').deleteOne({ _id: ObjectId(id) });
-  console.log(product, 'model');
   return product;
 };
 
