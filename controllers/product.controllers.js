@@ -1,4 +1,6 @@
-const { createProduct, findAllProducts, findByIdMongo } = require('../services/product.services');
+const {
+  createProduct, findAllProducts, findByIdMongo, productUpdate,
+} = require('../services/product.services');
 const {
   success,
   created,
@@ -8,7 +10,7 @@ const {
   // serverError,
 } = require('../utils/dictionary/statusCode');
 
-const productCreate = async (req, res, next) => {
+const add = async (req, res, next) => {
   try {
     const { name, quantity } = req.body;
 
@@ -19,7 +21,7 @@ const productCreate = async (req, res, next) => {
     return next(error);
   }
 };
-const getProduct = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
     const findAll = await findAllProducts();
     return res.status(success).json({ products: findAll });
@@ -29,7 +31,7 @@ const getProduct = async (req, res, next) => {
   }
 };
 
-const getId = async (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await findByIdMongo(id);
@@ -42,8 +44,21 @@ const getId = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  const { name, quantity } = req.body;
+  const { id } = req.params;
+  try {
+    const product = await productUpdate(id, name, quantity);
+    return res.status(success).json(product);
+  } catch (error) {
+    console.log(`POST UPDATEPRODUCT -> ${error.message}`);
+    return next(error);
+  }
+};
+
 module.exports = {
-  productCreate,
-  getProduct,
-  getId,
+  add,
+  getAll,
+  getById,
+  update,
 };

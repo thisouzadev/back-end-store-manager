@@ -1,7 +1,6 @@
 const Joi = require('@hapi/joi');
-const { ObjectId } = require('mongodb');
-const { create, findByName, findAll, findById } = require('../models/product.model');
-const { unprocessableEntity, notFound } = require('../utils/dictionary/statusCode');
+const { create, findByName, findAll, findById, updateProduct } = require('../models/product.model');
+const { unprocessableEntity } = require('../utils/dictionary/statusCode');
 const errorConstructor = require('../utils/functions/errorHandling');
 
 const productSchema = Joi.object({
@@ -50,8 +49,19 @@ const findByIdMongo = async (id) => {
   return product;
 };
 
+const productUpdate = async (id, name, quantity) => {
+  const { error } = productSchema.validate({
+    name, quantity,
+  });
+  if (error) throw errorConstructor(unprocessableEntity, error.message, 'invalid_data');
+  const product = await updateProduct(id, name, quantity);
+  console.log(product);
+  return product;
+};
+
 module.exports = {
   createProduct,
   findAllProducts,
   findByIdMongo,
+  productUpdate,
 };
