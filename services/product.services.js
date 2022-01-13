@@ -1,5 +1,8 @@
 const Joi = require('@hapi/joi');
-const { create, findByName, findAll, findById, updateProduct } = require('../models/product.model');
+const { ObjectId } = require('mongodb');
+const { create, findByName,
+  findAll, findById, updateProduct,
+  excludeProduct } = require('../models/product.model');
 const { unprocessableEntity } = require('../utils/dictionary/statusCode');
 const errorConstructor = require('../utils/functions/errorHandling');
 
@@ -55,8 +58,21 @@ const productUpdate = async (id, name, quantity) => {
   });
   if (error) throw errorConstructor(unprocessableEntity, error.message, 'invalid_data');
   const product = await updateProduct(id, name, quantity);
-  console.log(product);
+
   return product;
+};
+
+const productExclude = async (id) => {
+  const { error } = idSchema.validate(id);
+  const getId = await findById(ObjectId(id));
+  if (!getId) {
+    throw errorConstructor(
+      unprocessableEntity, 'Wrong id format', 'invalid_data',
+    );
+  }
+  const productDeleted = await excludeProduct(id);
+  console.log(productDeleted, 'service');
+  return productDeleted;
 };
 
 module.exports = {
@@ -64,4 +80,5 @@ module.exports = {
   findAllProducts,
   findByIdMongo,
   productUpdate,
+  productExclude,
 };

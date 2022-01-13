@@ -37,8 +37,18 @@ const updateProduct = async (id, name, quantity) => {
     { _id: ObjectId(id) },
     { $set: { name, quantity } },
   );
+
   if (!product) return create(name, quantity);
+
   return { _id: id, name, quantity };
+};
+
+const excludeProduct = async (id) => {
+  const db = await connect();
+  const product = await findById(id);
+  await db.collection('products').deleteOne({ _id: ObjectId(id) });
+  console.log(product, 'model');
+  return product;
 };
 
 module.exports = {
@@ -47,4 +57,5 @@ module.exports = {
   findAll,
   findById,
   updateProduct,
+  excludeProduct,
 };

@@ -1,5 +1,6 @@
+const { ObjectId } = require('mongodb');
 const {
-  createProduct, findAllProducts, findByIdMongo, productUpdate,
+  createProduct, findAllProducts, findByIdMongo, productUpdate, productExclude,
 } = require('../services/product.services');
 const {
   success,
@@ -56,9 +57,22 @@ const update = async (req, res, next) => {
   }
 };
 
+const exclude = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const products = await productExclude(ObjectId(id));
+    console.log(products, 'controller');
+    return res.status(success).json(products);
+  } catch (error) {
+    console.log(`POST DELETEPRODUCT -> ${error.message}`);
+    return next(error);
+  }
+};
+
 module.exports = {
   add,
   getAll,
   getById,
   update,
+  exclude,
 };
