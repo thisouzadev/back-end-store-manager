@@ -17,8 +17,8 @@ const findAll = async () => {
 
 const findByIdMongo = async (id) => {
   const db = await connect();
-  const insertedId = await db.collection('sales').findOne(new ObjectId(id));
-
+  const insertedId = await db.collection('sales').findOne({ _id: ObjectId(id) });
+  console.log(insertedId, 'model');
   return insertedId;
 };
 

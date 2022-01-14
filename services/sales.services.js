@@ -37,6 +37,7 @@ const findById = async (id) => {
   if (error) throw errorConstructor(notFound, 'Sale not found', 'not_found');
   const sales = await findByIdMongo(id);
   if (!sales) throw errorConstructor(notFound, 'Sale not found', 'not_found');
+  console.log(sales, 'services');
   return sales;
 };
 
