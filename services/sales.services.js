@@ -35,10 +35,10 @@ const findAllSales = async (productId, quantity) => {
 const findById = async (id) => {
   const { error } = idSchema.validate(id);
   if (error) throw errorConstructor(notFound, 'Sale not found', 'not_found');
-  const sales = await findByIdMongo(id);
-  if (!sales) throw errorConstructor(notFound, 'Sale not found', 'not_found');
-  console.log(sales, 'services');
-  return sales;
+  const salesProduct = await findByIdMongo(id);
+  if (!salesProduct) throw errorConstructor(notFound, 'Sale not found', 'not_found');
+  console.log(salesProduct, 'services');
+  return salesProduct;
 };
 
 module.exports = {

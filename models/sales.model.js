@@ -10,9 +10,9 @@ const create = async (array) => {
 
 const findAll = async () => {
   const db = await connect();
-  const sales = await db.collection('sales').find().toArray();
+  const salesProduct = await db.collection('sales').find().toArray();
 
-  return sales;
+  return { sales: salesProduct };
 };
 
 const findByIdMongo = async (id) => {
