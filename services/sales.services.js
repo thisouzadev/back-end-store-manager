@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const Joi = require('@hapi/joi');
-const { create, findAll, findByIdMongo } = require('../models/sales.model');
+const { create, findAll, findByIdMongo, update } = require('../models/sales.model');
 const { unprocessableEntity, notFound } = require('../utils/dictionary/statusCode');
 const errorConstructor = require('../utils/functions/errorHandling');
 
@@ -37,12 +37,23 @@ const findById = async (id) => {
   if (error) throw errorConstructor(notFound, 'Sale not found', 'not_found');
   const salesProduct = await findByIdMongo(id);
   if (!salesProduct) throw errorConstructor(notFound, 'Sale not found', 'not_found');
-  console.log(salesProduct, 'services');
   return salesProduct;
+};
+
+const salesUpdate = async (id, array) => {
+  const { error } = salesSchema.validate(array);
+  if (error) {
+    throw errorConstructor(
+      unprocessableEntity, 'Wrong product ID or invalid quantity', 'invalid_data',
+    );
+  }
+  const sales = await update(id, array);
+  return sales;
 };
 
 module.exports = {
   createSales,
   findAllSales,
   findById,
+  salesUpdate,
 };

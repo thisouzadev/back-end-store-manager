@@ -2,6 +2,7 @@ const {
   createSales,
   findAllSales,
   findById,
+  salesUpdate,
 } = require('../services/sales.services');
 const {
   success,
@@ -35,10 +36,20 @@ const getByIdSales = async (req, res, next) => {
   const { id } = req.params;
   try {
     const product = await findById(id);
-    console.log(product, 'controler');
     return res.status(success).json(product);
   } catch (error) {
     console.log(`POST GETBYIDSALES -> ${error.message}`);
+    return next(error);
+  }
+};
+const updateSales = async (req, res, next) => {
+  const array = req.body;
+  const { id } = req.params;
+  try {
+    const product = await salesUpdate(id, array);
+    return res.status(success).json(product);
+  } catch (error) {
+    console.log(`POST UPDATEPRODUCT -> ${error.message}`);
     return next(error);
   }
 };
@@ -47,4 +58,5 @@ module.exports = {
   addSales,
   getAllSales,
   getByIdSales,
+  updateSales,
 };

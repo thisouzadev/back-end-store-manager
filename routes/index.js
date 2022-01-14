@@ -10,6 +10,7 @@ const {
   addSales,
   getAllSales,
   getByIdSales,
+  updateSales,
 } = require('../controllers/sales.controllers');
 
 const router = express.Router();
@@ -23,4 +24,5 @@ router.delete('/products/:id', exclude);
 router.post('/sales', addSales);
 router.get('/sales', getAllSales);
 router.get('/sales/:id', getByIdSales);
+router.put('/sales/:id', updateSales);
 module.exports = router;

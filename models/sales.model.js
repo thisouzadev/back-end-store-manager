@@ -18,12 +18,23 @@ const findAll = async () => {
 const findByIdMongo = async (id) => {
   const db = await connect();
   const insertedId = await db.collection('sales').findOne({ _id: ObjectId(id) });
-  console.log(insertedId, 'model');
   return insertedId;
+};
+
+const update = async (id, array) => {
+  const db = await connect();
+  const sales = await db.collection('sales').updateOne(
+    { _id: ObjectId(id) },
+    { $addToSet: { itensSold: array } },
+  );
+  if (!sales) return create(array);
+  console.log(id, array, 'model');
+  return { _id: id, itensSold: array };
 };
 
 module.exports = {
   create,
   findAll,
   findByIdMongo,
+  update,
 };
