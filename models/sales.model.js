@@ -32,9 +32,16 @@ const update = async (id, array) => {
   return { _id: id, itensSold: array };
 };
 
+const exclude = async (id) => {
+  const db = await connect();
+  const product = await findByIdMongo(id);
+  await db.collection('sales').deleteOne({ _id: ObjectId(id) });
+  return product;
+};
 module.exports = {
   create,
   findAll,
   findByIdMongo,
   update,
+  exclude,
 };

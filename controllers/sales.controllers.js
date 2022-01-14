@@ -3,6 +3,7 @@ const {
   findAllSales,
   findById,
   salesUpdate,
+  salesExclude,
 } = require('../services/sales.services');
 const {
   success,
@@ -49,14 +50,25 @@ const updateSales = async (req, res, next) => {
     const product = await salesUpdate(id, array);
     return res.status(success).json(product);
   } catch (error) {
-    console.log(`POST UPDATEPRODUCT -> ${error.message}`);
+    console.log(`POST UPDATESALES -> ${error.message}`);
     return next(error);
   }
 };
 
+const excludeSales = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const sales = await salesExclude(id);
+    return res.status(success).json(sales);
+  } catch (error) {
+    console.log(`POST DELETESALES -> ${error.message}`);
+    return next(error);
+  }
+};
 module.exports = {
   addSales,
   getAllSales,
   getByIdSales,
   updateSales,
+  excludeSales,
 };
